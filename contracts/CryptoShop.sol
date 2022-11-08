@@ -18,7 +18,7 @@ contract CryptoShop is ERC1155, AccessControl, ERC1155Holder {
         string name;
         string desc;
         string imgIngfo;
-        address seller;
+        address payable seller;
         uint price;
     }
 
@@ -27,7 +27,7 @@ contract CryptoShop is ERC1155, AccessControl, ERC1155Holder {
     constructor() ERC1155("") {
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
         register("admin");
-        _grantRole(SELLER_ROLE, msg.sender);
+        becomeSeller();
     }
 
     function submitCommodity(
@@ -37,17 +37,28 @@ contract CryptoShop is ERC1155, AccessControl, ERC1155Holder {
         uint _price,
         uint _stock
     ) external onlyRole(SELLER_ROLE) {
-        _mint(_msgSender(), uniqueItemsAmount, _stock, "");
+        _mint(msg.sender, uniqueItemsAmount, _stock, "");
         Item memory newItem = Item(
             _name,
             _desc,
             _imginfo,
-            _msgSender(),
+            payable(msg.sender),
             _price
         );
         items[uniqueItemsAmount] = newItem;
-        ownedItems[_msgSender()].push([uniqueItemsAmount, _stock]);
+        ownedItems[msg.sender].push([uniqueItemsAmount, _stock]);
         uniqueItemsAmount = uniqueItemsAmount + 1;
+    }
+
+    function safeTransferFrom(
+        address from,
+        address to,
+        uint256 id,
+        uint256 amount,
+        bytes memory data
+    ) public override {
+        require(hasRole(BUYER_ROLE, to), "not registered person");
+        super.safeTransferFrom(from, to, id, amount, data);
     }
 
     function buy(uint id, uint amount) external payable onlyRole(BUYER_ROLE) {
@@ -56,22 +67,29 @@ contract CryptoShop is ERC1155, AccessControl, ERC1155Holder {
             abi.encodeWithSignature(
                 "safeTransferFrom(address,address,uint256,uint256,bytes)",
                 items[id].seller,
-                _msgSender(),
+                msg.sender,
                 id,
                 amount,
                 "0x00000000000000000000000000000000"
             )
         );
         require(success, "something went wrong!");
-        ownedItems[_msgSender()].push([id, amount]);
+        ownedItems[msg.sender].push([id, amount]);
         _updateOwnedTokens(items[id].seller);
+        items[id].seller.transfer(msg.value);
+    }
+
+    function withdrawFromSale(uint id) external {
+        require(msg.sender == items[id].seller, "not allowed to do this!");
+        _burn(msg.sender, id, balanceOf(msg.sender, id));
+        _updateOwnedTokens(msg.sender);
     }
 
     function _updateOwnedTokens(address user) internal {
         uint[2][] storage userBalances = ownedItems[user];
         for (uint i = 0; i < userBalances.length; i++) {
             uint balanceOfCurrentToken = balanceOf(
-                _msgSender(),
+                msg.sender,
                 userBalances[i][0]
             );
             if (balanceOfCurrentToken == 0) {
@@ -83,17 +101,17 @@ contract CryptoShop is ERC1155, AccessControl, ERC1155Holder {
         }
     }
 
-    function becomeSeller() external onlyRole(BUYER_ROLE) {
-        require(!hasRole(SELLER_ROLE, _msgSender()), "already a seller");
-        _grantRole(SELLER_ROLE, _msgSender());
+    function becomeSeller() public onlyRole(BUYER_ROLE) {
+        require(!hasRole(SELLER_ROLE, msg.sender), "already a seller");
+        _grantRole(SELLER_ROLE, msg.sender);
         setApprovalForAll(address(this), true);
     }
 
     function register(string memory name) public {
-        require(!hasRole(BUYER_ROLE, _msgSender()), "already registered!");
+        require(!hasRole(BUYER_ROLE, msg.sender), "already registered!");
         changeName(name);
-        _grantRole(BUYER_ROLE, _msgSender());
-        emit NewUser(_msgSender());
+        _grantRole(BUYER_ROLE, msg.sender);
+        emit NewUser(msg.sender);
     }
 
     function changeName(string memory name) public {
@@ -103,7 +121,7 @@ contract CryptoShop is ERC1155, AccessControl, ERC1155Holder {
                 bytes(name).length != 0,
             "wrong name"
         );
-        userNames[_msgSender()] = name;
+        userNames[msg.sender] = name;
         isTakenUsername[name] = true;
     }
 
