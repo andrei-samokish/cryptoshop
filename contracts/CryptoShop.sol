@@ -5,8 +5,10 @@ import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/token/ERC1155/utils/ERC1155Holder.sol";
 
+error AlreadyHasRole(bytes32 role);
+
 contract CryptoShop is ERC1155, AccessControl, ERC1155Holder {
-    bytes32 public constant SELLER_ROLE = keccak256("MINTER_ROLE");
+    bytes32 public constant SELLER_ROLE = keccak256("SELLER_ROLE");
     bytes32 public constant BUYER_ROLE = keccak256("BUYER_ROLE");
     mapping(address => string) public userNames;
     mapping(string => bool) private isTakenUsername;
@@ -57,7 +59,7 @@ contract CryptoShop is ERC1155, AccessControl, ERC1155Holder {
         uint256 amount,
         bytes memory data
     ) public override {
-        require(hasRole(BUYER_ROLE, to), "not registered person");
+        _checkRole(BUYER_ROLE, to);
         super.safeTransferFrom(from, to, id, amount, data);
     }
 
@@ -102,13 +104,14 @@ contract CryptoShop is ERC1155, AccessControl, ERC1155Holder {
     }
 
     function becomeSeller() public onlyRole(BUYER_ROLE) {
-        require(!hasRole(SELLER_ROLE, msg.sender), "already a seller");
+        if (hasRole(SELLER_ROLE, msg.sender))
+            revert AlreadyHasRole(SELLER_ROLE);
         _grantRole(SELLER_ROLE, msg.sender);
         setApprovalForAll(address(this), true);
     }
 
     function register(string memory name) public {
-        require(!hasRole(BUYER_ROLE, msg.sender), "already registered!");
+        if (hasRole(BUYER_ROLE, msg.sender)) revert AlreadyHasRole(BUYER_ROLE);
         changeName(name);
         _grantRole(BUYER_ROLE, msg.sender);
         emit NewUser(msg.sender);
