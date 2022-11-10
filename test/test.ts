@@ -42,7 +42,7 @@ describe("Cryptoshop contract test", () => {
         .connect(user)
         .register("super very long name... even longer than 33 symbols")
     ).to.be.revertedWith("wrong name");
-    const nameChange = await contract.connect(user).changeName("ubica228");
+    await contract.connect(user).changeName("ubica228");
     expect(await contract.userNames(user.address)).to.eq("ubica228");
   });
 
