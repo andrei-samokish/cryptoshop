@@ -14,12 +14,12 @@ contract CryptoShop is ERC1155, AccessControl, ERC1155Holder {
     mapping(string => bool) private isTakenUsername;
     uint private uniqueItemsAmount;
     mapping(uint => Item) public items;
-    mapping(address => uint[2][]) ownedItems; // user -> [id, ownedAmount]
+    mapping(address => uint[2][]) public ownedItems; // user -> [id, ownedAmount]
 
     struct Item {
         string name;
         string desc;
-        string imgIngfo;
+        string imgInfo;
         address payable seller;
         uint price;
     }
@@ -52,19 +52,16 @@ contract CryptoShop is ERC1155, AccessControl, ERC1155Holder {
         uniqueItemsAmount = uniqueItemsAmount + 1;
     }
 
-    function safeTransferFrom(
-        address from,
-        address to,
-        uint256 id,
-        uint256 amount,
-        bytes memory data
-    ) public override {
-        _checkRole(BUYER_ROLE, to);
-        super.safeTransferFrom(from, to, id, amount, data);
+    function fillStock(uint id, uint amount) external {
+        require(items[id].seller == msg.sender, "not allowed");
+        _mint(msg.sender, id, amount, "");
+        _updateOwnedTokens(msg.sender);
     }
 
     function buy(uint id, uint amount) external payable onlyRole(BUYER_ROLE) {
         require(msg.value == amount * items[id].price, "wrong sum!");
+        bool doesHaveThisItem = balanceOf(msg.sender, id) == 0 ? false : true;
+
         (bool success, ) = address(this).call(
             abi.encodeWithSignature(
                 "safeTransferFrom(address,address,uint256,uint256,bytes)",
@@ -76,7 +73,8 @@ contract CryptoShop is ERC1155, AccessControl, ERC1155Holder {
             )
         );
         require(success, "something went wrong!");
-        ownedItems[msg.sender].push([id, amount]);
+        if (!doesHaveThisItem) ownedItems[msg.sender].push([id, amount]);
+        else _updateOwnedTokens(msg.sender);
         _updateOwnedTokens(items[id].seller);
         items[id].seller.transfer(msg.value);
     }
@@ -84,22 +82,20 @@ contract CryptoShop is ERC1155, AccessControl, ERC1155Holder {
     function withdrawFromSale(uint id) external {
         require(msg.sender == items[id].seller, "not allowed to do this!");
         _burn(msg.sender, id, balanceOf(msg.sender, id));
+        delete items[id];
         _updateOwnedTokens(msg.sender);
     }
 
     function _updateOwnedTokens(address user) internal {
-        uint[2][] storage userBalances = ownedItems[user];
-        for (uint i = 0; i < userBalances.length; i++) {
-            uint balanceOfCurrentToken = balanceOf(
-                msg.sender,
-                userBalances[i][0]
-            );
+        uint[2][] storage userItemsInfo = ownedItems[user];
+        for (uint i = 0; i < userItemsInfo.length; i++) {
+            uint balanceOfCurrentToken = balanceOf(user, userItemsInfo[i][0]);
+            if (userItemsInfo[i][1] != balanceOfCurrentToken)
+                userItemsInfo[i][1] = balanceOfCurrentToken;
             if (balanceOfCurrentToken == 0) {
-                userBalances[i] = userBalances[userBalances.length - 1];
-                userBalances.pop();
+                userItemsInfo[i] = userItemsInfo[userItemsInfo.length - 1];
+                userItemsInfo.pop();
             }
-            if (userBalances[i][1] != balanceOfCurrentToken)
-                userBalances[i][1] = balanceOfCurrentToken;
         }
     }
 
@@ -112,12 +108,12 @@ contract CryptoShop is ERC1155, AccessControl, ERC1155Holder {
 
     function register(string memory name) public {
         if (hasRole(BUYER_ROLE, msg.sender)) revert AlreadyHasRole(BUYER_ROLE);
-        changeName(name);
         _grantRole(BUYER_ROLE, msg.sender);
+        changeName(name);
         emit NewUser(msg.sender);
     }
 
-    function changeName(string memory name) public {
+    function changeName(string memory name) public onlyRole(BUYER_ROLE) {
         require(
             !isTakenUsername[name] &&
                 bytes(name).length <= 32 &&
@@ -126,6 +122,17 @@ contract CryptoShop is ERC1155, AccessControl, ERC1155Holder {
         );
         userNames[msg.sender] = name;
         isTakenUsername[name] = true;
+    }
+
+    function safeTransferFrom(
+        address from,
+        address to,
+        uint256 id,
+        uint256 amount,
+        bytes memory data
+    ) public override {
+        _checkRole(BUYER_ROLE, to);
+        super.safeTransferFrom(from, to, id, amount, data);
     }
 
     // The following function is override required by Solidity.
