@@ -12,12 +12,11 @@ contract CryptoShop is ERC1155, AccessControl, ERC1155Holder {
     bytes32 public constant BUYER_ROLE = keccak256("BUYER_ROLE");
     mapping(address => string) public userNames;
     mapping(string => bool) private isTakenUsername;
-    uint private uniqueItemsAmount;
     mapping(uint => Item) public items;
     mapping(address => uint[2][]) public ownedItems; // user -> [id, ownedAmount]
+    string[] public names;
 
     struct Item {
-        string name;
         string desc;
         string imgInfo;
         address payable seller;
@@ -39,15 +38,16 @@ contract CryptoShop is ERC1155, AccessControl, ERC1155Holder {
         uint _price,
         uint _stock
     ) external onlyRole(SELLER_ROLE) {
+        uint uniqueItemsAmount = names.length;
         _mint(msg.sender, uniqueItemsAmount, _stock, "");
         Item memory newItem = Item(
-            _name,
             _desc,
             _imginfo,
             payable(msg.sender),
             _price
         );
         items[uniqueItemsAmount] = newItem;
+        names.push(_name);
         ownedItems[msg.sender].push([uniqueItemsAmount, _stock]);
         uniqueItemsAmount = uniqueItemsAmount + 1;
     }
@@ -82,7 +82,6 @@ contract CryptoShop is ERC1155, AccessControl, ERC1155Holder {
     function withdrawFromSale(uint id) external {
         require(msg.sender == items[id].seller, "not allowed to do this!");
         _burn(msg.sender, id, balanceOf(msg.sender, id));
-        delete items[id];
         _updateOwnedTokens(msg.sender);
     }
 
