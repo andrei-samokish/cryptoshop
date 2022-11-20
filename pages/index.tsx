@@ -1,5 +1,7 @@
+import Landing from "./Landing";
+
 function HomePage(): JSX.Element {
-  return <div className="text-7xl">Welcome to Next.js!</div>;
+  return <Landing />;
 }
 
 export default HomePage;
