@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import contrWithSigner from "./connectProvider/сontrWithSigner";
-import { CryptoShop } from "../typechain-types";
+//import { CryptoShop } from "../typechain-types";
 
 export default function LoginButton() {
   const [nickname, setNickname] = useState("");
