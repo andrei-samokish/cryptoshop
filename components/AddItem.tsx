@@ -26,27 +26,7 @@ function AddItem() {
     }
 
     function handleFormSubmit() {
-        // if(desc && !name && price && selectedFile){
-        //     setValid("you must enter the name of the product!")
-        //     return;
-        // }
-        // else if(!desc && name && price && selectedFile){
-        //     setValid("you must enter the description!")
-        //     return;
-        // } 
-        // else if(desc && name && !price && selectedFile){
-        //     setValid("you must enter the price!")
-        //     return;
-        // }
-        // else if(desc && name && price && !selectedFile){
-        //     setValid("you must upload an image!")
-        //     return;
-        // }
-        // else {
-        //     setValid("it is necessary to fill in all the fields!")
-        //     return;
-        // }
-        
+ 
         handleUploadImage();
     
         
@@ -95,14 +75,10 @@ function AddItem() {
                 >
                     {uploading ? "Uploading.." : "Upload"}
                 </button>
-
             </form>
         </div>
     )
     
-
-
-
 }
 
 export {AddItem}

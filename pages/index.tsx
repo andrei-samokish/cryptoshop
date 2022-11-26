@@ -1,7 +1,19 @@
-import Landing from "./Landing";
+// <<<<<<< HEAD
+// import Landing from "./Landing";
 
+// function HomePage(): JSX.Element {
+//   return <Landing />;
+// =======
+import { Header } from "../components/Header";
+import { Navbar} from "../components/Navbar";
+import {ProductCard} from "../components/ProductCard"
+import {AddItem} from "../components/AddItem"
 function HomePage(): JSX.Element {
-  return <Landing />;
+  return (
+    <div>
+      <AddItem></AddItem>
+    </div>
+  )
 }
 
 export default HomePage;

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -11,3 +12,15 @@ const nextConfig = {
 };
 
 module.exports = nextConfig;
+=======
+// /** @type {import('next').NextConfig} */
+
+// module.exports = {
+//     reactStrictMode: false,
+//     webpack5: true,
+//     webpack: (config) => {
+//         config.resolve.fallback = {fs: false}
+//         return config;
+//     },
+// }
+>>>>>>> front
