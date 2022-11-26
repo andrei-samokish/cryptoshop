@@ -1,12 +1,11 @@
 
-function Input({width, height, placeholder, round, on_change, on_submit}: InputProps):JSX.Element{
+function Input({placeholder, on_change}: InputProps):JSX.Element{
     return(
-        <input
-            className = {`w-[${width}] h-[${height}] rounded-[${round}]`}
-            type = "text"
+        <input 
+            type="text" 
+            onChange={(e) => on_change(e)}
+            className = "border-[2px] w-[350px] border-black mx-[25px] my-[15px] text-center font-mono block text-black"
             placeholder={placeholder}
-            onChange = {on_change}
-            onSubmit = {on_submit}
         />
     )
 }

@@ -1,14 +1,17 @@
 import axios from "axios";
-import { useState } from "react"
+import { Input } from "./Input";
+import React, { useState } from "react"
+import {ethers } from "ethers"
 
 function AddItem() {
     const [name, setName] = useState("");
     const [desc, setDesc] = useState("");
+    const [price, setPrice] = useState<number | null>(null);
+    const [valid, setValid] = useState("");
     const [uploading, setUploading] = useState(false);
     const [selectedFile, setSelectedFile] = useState<Blob | null>(null);
     const [selectedFileUrl, setSelectedFileUrl] = useState<string>('');
-
-    async function handleUpload () {
+    async function handleUploadImage () {
         setUploading(true);
         try {
             if(!selectedFile) return;
@@ -23,7 +26,30 @@ function AddItem() {
     }
 
     function handleFormSubmit() {
-        handleUpload()
+        // if(desc && !name && price && selectedFile){
+        //     setValid("you must enter the name of the product!")
+        //     return;
+        // }
+        // else if(!desc && name && price && selectedFile){
+        //     setValid("you must enter the description!")
+        //     return;
+        // } 
+        // else if(desc && name && !price && selectedFile){
+        //     setValid("you must enter the price!")
+        //     return;
+        // }
+        // else if(desc && name && price && !selectedFile){
+        //     setValid("you must upload an image!")
+        //     return;
+        // }
+        // else{
+        //     setValid("it is necessary to fill in all the fields!")
+        //     return;
+        // }
+        
+        handleUploadImage();
+    
+        
     }
 
 
@@ -31,10 +57,11 @@ function AddItem() {
         <div className = "ui-form">
             <form onSubmit={handleFormSubmit}>
                 <div className="flex">
+                    
                     <input
-                        className = "inputfile"
+                        className = "w-[0.1px] h-[0.1px] overflow-hidden absolute z-[-1]"
                         type = "file"
-                        accept=".svg"
+                        id = "file"
                         onChange={
                             ({target}) => {
                                 if (target.files) {     
@@ -46,20 +73,25 @@ function AddItem() {
                             }
                         }
                     />
-                    
+                    <label htmlFor="file" className="text-center w-[150px] h-[50px] font-mono
+                    font-medium mx-[25px] my-[15px] bg-slate-400 cursor-pointer 
+                    border-black border-[2px] block
+                    hover:bg-slate-600 hover:text-white hover:border-white">
+                        <h1 className="pt-[10px]">Choose an image</h1>
+                    </label>   
+                    <img src={selectedFileUrl}/>                                      
                 </div>
                 <div className="metadata-input">
-                    <input type="text" 
-                        className = "border-[2px] border-black mx-[25px] my-[15px] text-center font-mono"
-                        placeholder="enter product name"
-                    />
+                    <Input placeholder="enter the name of the product" on_change={(e) => setName(e.target.value)}></Input>
+                    <Input placeholder="enter the description" on_change={(e) => setDesc(e.target.value)}></Input>
+                    <Input placeholder="enter the price" on_change={(e) => setPrice(Number(e.target.value))}></Input>
                 </div>
-                <img src={selectedFileUrl}/> 
+                
                 <button
                     onClick={handleFormSubmit}
                     disabled = {uploading}
                     style = {{opacity: uploading ? ".5" : "1"}}
-                    className = "bg-amber-600 w-[100px] h-[50px] text-center rounded text-black"
+                    className = "border-[2px] w-[100px] h-[50px] mx-[25px] my-[15px]"
                 >
                     {uploading ? "Uploading.." : "Upload"}
                 </button>

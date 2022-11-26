@@ -15,11 +15,8 @@ type NavbarProps = {
 
 type InputProps = {
     placeholder?: string;
-    width: string;
-    height: string;
-    round: string;
+
     on_change: (a) => void;
-    on_submit: (a) => void;
 }
 
 type ProductCardProps = {
