@@ -6,7 +6,7 @@ export default function LoginButton() {
   const [nickname, setNickname] = useState("");
 
   const [isSSR, setIsSSR] = useState(false);
-  
+
   useEffect(() => {
     setIsSSR(true);
   }, []);
@@ -32,4 +32,5 @@ export default function LoginButton() {
           }></input>
       </>
     );
+  else return <h1></h1>;
 }
