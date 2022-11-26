@@ -1,9 +1,3 @@
-// <<<<<<< HEAD
-// import Landing from "./Landing";
-
-// function HomePage(): JSX.Element {
-//   return <Landing />;
-// =======
 import { Header } from "../components/Header";
 import { Navbar} from "../components/Navbar";
 import {ProductCard} from "../components/ProductCard"

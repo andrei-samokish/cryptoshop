@@ -1,4 +1,3 @@
-//const {getSrc} = require('../helpers/getSrc')
 
 function ProductCard({name, description, svg}: ProductCardProps):JSX.Element {
     return(

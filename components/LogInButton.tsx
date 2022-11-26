@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import contrWithSigner from "./connectProvider/сontrWithSigner";
-//import { CryptoShop } from "../typechain-types";
+import contrWithSigner from "./connectProvider/contrWithSigner";
+import { CryptoShop } from "../typechain-types";
 
 export default function LoginButton() {
   const [nickname, setNickname] = useState("");
 
   const [isSSR, setIsSSR] = useState(false);
-
+  
   useEffect(() => {
     setIsSSR(true);
   }, []);

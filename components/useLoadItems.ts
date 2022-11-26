@@ -15,6 +15,7 @@ export default async function useLoadItems() {
     const [desc_, img, , price] = await mainContr.items(i);
 
     // const _desc = Buffer.from(desc_, "base64"); // для декода из base64 на SSR
+    // const desc = _desc.toString()
     const name = await mainContr.names(i);
     const item = {
       name,
