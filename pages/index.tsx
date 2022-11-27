@@ -7,7 +7,6 @@ function HomePage(): JSX.Element {
   return (
     <div>
       <AddItem></AddItem>
-      <LoginButton />
     </div>
   );
 }

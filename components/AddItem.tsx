@@ -1,12 +1,15 @@
 import axios from "axios";
 import { Input } from "./Input";
-import React, { useState } from "react";
-import { ethers } from "ethers";
+import React, { FormEvent, useState } from "react";
+
+import { SVGFormula } from "../pages/api/image";
+import contrWithSigner from "./connectProvider/contrWithSigner";
 
 function AddItem() {
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
-  const [price, setPrice] = useState<number | null>(null);
+  const [price, setPrice] = useState<number>(0);
+  const [stock, setStock] = useState<number>(0);
   const [valid, setValid] = useState("");
   const [uploading, setUploading] = useState(false);
   const [selectedFile, setSelectedFile] = useState<Blob | null>(null);
@@ -25,8 +28,15 @@ function AddItem() {
     setUploading(false);
   }
 
-  function handleFormSubmit() {
-    handleUploadImage();
+  function handleFormSubmit(event: FormEvent) {
+    event.preventDefault();
+
+    if (name && desc && selectedFile && price && stock) {
+      handleUploadImage();
+      contrWithSigner().submitCommodity(name, desc, SVGFormula, price, stock);
+    } else {
+      setValid("it is nessesary to fill all the fields");
+    }
   }
 
   return (
@@ -66,13 +76,16 @@ function AddItem() {
           <Input
             placeholder="enter the price"
             on_change={(e) => setPrice(Number(e.target.value))}></Input>
+          <Input
+            placeholder="enter stock"
+            on_change={(e) => setStock(Number(e.target.value))}></Input>
         </div>
-
+        {valid === "" ? "" : <h1 className="m-[auto]">{valid}</h1>}
         <button
           onClick={handleFormSubmit}
           disabled={uploading}
           style={{ opacity: uploading ? ".5" : "1" }}
-          className="border-[2px] w-[100px] h-[50px] mx-[25px] my-[15px]">
+          className="block border-[2px] w-[100px] h-[50px] mx-[25px] my-[15px]">
           {uploading ? "Uploading.." : "Upload"}
         </button>
       </form>
