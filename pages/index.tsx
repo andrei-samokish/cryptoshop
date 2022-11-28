@@ -1,13 +1,12 @@
-import { Header } from "../components/Header";
-import { Navbar } from "../components/Navbar";
-import { ProductCard } from "../components/ProductCard";
-import { AddItem } from "../components/AddItem";
-import LoginButton from "../components/LogInButton";
+import "semantic-ui-css/semantic.min.css";
+import { Button } from "semantic-ui-react";
+import Link from "next/link";
+
 function HomePage(): JSX.Element {
   return (
-    <div>
-      <AddItem></AddItem>
-    </div>
+    <Link href="/main">
+      <Button>browse items</Button>
+    </Link>
   );
 }
 

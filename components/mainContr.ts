@@ -1,5 +1,5 @@
 import { CryptoShop, CryptoShop__factory } from "../typechain-types";
-import defaultProvider from "./connectProvider/defaultProvider";
+import { defaultProvider } from "./connectProvider/defaultProvider";
 import { ethers } from "ethers";
 
 const mainContr = new ethers.Contract(

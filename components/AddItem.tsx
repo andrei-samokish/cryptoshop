@@ -2,7 +2,7 @@ import axios from "axios";
 import { Input } from "./Input";
 import React, { FormEvent, useState } from "react";
 
-import { SVGFormula } from "../pages/api/image";
+// import { SVGFormula } from "../pages/api/image";
 import contrWithSigner from "./connectProvider/contrWithSigner";
 
 function AddItem() {
@@ -14,6 +14,8 @@ function AddItem() {
   const [uploading, setUploading] = useState(false);
   const [selectedFile, setSelectedFile] = useState<Blob | null>(null);
   const [selectedFileUrl, setSelectedFileUrl] = useState<string>("");
+  let svg: string;
+
   async function handleUploadImage() {
     setUploading(true);
     try {
@@ -21,19 +23,19 @@ function AddItem() {
       const formData = new FormData();
       formData.append("myImage", selectedFile);
       const { data } = await axios.post("/api/image", formData);
-      console.log(data);
+      svg = data.SVGFormula;
     } catch (error: any) {
       console.log(error.response?.data);
     }
     setUploading(false);
   }
 
-  function handleFormSubmit(event: FormEvent) {
+  async function handleFormSubmit(event: FormEvent) {
     event.preventDefault();
 
     if (name && desc && selectedFile && price && stock) {
-      handleUploadImage();
-      contrWithSigner().submitCommodity(name, desc, SVGFormula, price, stock);
+      await handleUploadImage();
+      contrWithSigner().submitCommodity(name, desc, btoa(svg), price, stock);
     } else {
       setValid("it is nessesary to fill all the fields");
     }
@@ -62,7 +64,9 @@ function AddItem() {
                     font-medium mx-[25px] my-[15px] bg-slate-400 cursor-pointer 
                     border-black border-[2px] block
                     hover:bg-slate-600 hover:text-white hover:border-white">
-            <h1 className="pt-[10px]">Choose an image</h1>
+            <h1 className="pt-[10px] font-mono font-medium text-base">
+              Choose an image
+            </h1>
           </label>
           <img src={selectedFileUrl} />
         </div>

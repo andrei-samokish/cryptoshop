@@ -1,13 +1,18 @@
+import Link from "next/link";
+import { Menu } from "semantic-ui-react";
 
 function Header(): JSX.Element {
-    return(
-        <div className = "block mx-[25px] mt-[25px] mb-[15px] w-[75px] h-[75px] border-[3px] border-black">
-            <h1 className = "text-center pt-[10%] text-[35px] font-alegreya font-black">
-            ζ
-            </h1>
-        </div>
-        
-    )
+  return (
+    <Menu>
+      <Link href="/main">
+        <Menu.Item name="editorials">Main</Menu.Item>
+      </Link>
+
+      <Link href="/account">
+        <Menu.Item name="reviews">Personal account</Menu.Item>
+      </Link>
+    </Menu>
+  );
 }
 
-export {Header}; 
+export { Header };
