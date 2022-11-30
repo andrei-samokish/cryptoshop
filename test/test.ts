@@ -1,10 +1,6 @@
 import { ethers } from "hardhat";
-import { Signer } from "ethers";
 import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
-import { CryptoShop } from "../typechain-types";
 import { expect } from "chai";
-import { string } from "hardhat/internal/core/params/argumentTypes";
-import { contracts } from "../typechain-types/@openzeppelin";
 
 describe("Cryptoshop contract test", () => {
   async function deployFixture() {
@@ -202,7 +198,7 @@ describe("Cryptoshop contract test", () => {
   });
 
   it("supports interface", async () => {
-    const { contract, user } = await loadFixture(deployFixture);
+    const { contract } = await loadFixture(deployFixture);
 
     expect(await contract.supportsInterface("0xd9b67a26")).to.eq(true);
   });

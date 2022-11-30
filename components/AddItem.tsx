@@ -35,7 +35,13 @@ function AddItem() {
 
     if (name && desc && selectedFile && price && stock) {
       await handleUploadImage();
-      contrWithSigner().submitCommodity(name, desc, btoa(svg), price, stock);
+      (await contrWithSigner()).submitCommodity(
+        name,
+        desc,
+        btoa(svg),
+        price,
+        stock
+      );
     } else {
       setValid("it is nessesary to fill all the fields");
     }

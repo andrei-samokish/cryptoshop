@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import contrWithSigner from "./connectProvider/contrWithSigner";
-import { CryptoShop } from "../typechain-types";
 
 export default function LoginButton() {
   const [nickname, setNickname] = useState("");
@@ -12,7 +11,11 @@ export default function LoginButton() {
   }, []);
 
   async function handleLoginButtonClick() {
-    contrWithSigner().register(nickname);
+    try {
+      await (await contrWithSigner()).register(nickname, { gasLimit: 50000 });
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   if (isSSR)
