@@ -6,11 +6,12 @@ export default async function useLoadItems() {
   let items: Array<{ name: string; desc: string; img: string; price: number }> =
     [];
 
-  let i = 0;
-
-  while (true) {
-    const [desc_, img, , price] = await mainContr.items(i);
+  for (let i = 0; ; i++) {
+    const [desc_, img, seller, price] = await mainContr.items(i);
     if (!img) break;
+    const ownerBalance = await mainContr.balanceOf(seller, i);
+    if (!ownerBalance.toNumber()) continue;
+
     const name = await mainContr.names(i);
 
     const item = {
@@ -20,7 +21,6 @@ export default async function useLoadItems() {
       price: price.toNumber(),
     };
     items = [...items, item];
-    i++;
   }
 
   return items;

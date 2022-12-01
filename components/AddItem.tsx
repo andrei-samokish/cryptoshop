@@ -103,4 +103,4 @@ function AddItem() {
   );
 }
 
-export { AddItem };
+export default AddItem;
