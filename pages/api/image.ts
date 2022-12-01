@@ -1,8 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-let SVGFormula:string;
+let SVGFormula: string;
 const readFile = (req: NextApiRequest) => {
-    SVGFormula =  req.body.match(/<svg (.*?)><\/svg>/g)[0]
+    let data = req.body;
+    SVGFormula =  data.match(/<svg(.*?)svg>/gms)[0]
     console.log('body: \n\n', SVGFormula)
 }
 
