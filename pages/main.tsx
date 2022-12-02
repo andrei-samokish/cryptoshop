@@ -1,12 +1,12 @@
 import Layout from "../components/Layout";
-import { AddItem } from "../components/AddItem";
 import "semantic-ui-css/semantic.min.css";
+import ItemsRender from "../components/ItemsRender";
 
 export default function Main() {
   return (
     <div>
       <Layout>
-        <AddItem></AddItem>
+        <ItemsRender />
       </Layout>
     </div>
   );
