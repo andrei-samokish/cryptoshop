@@ -51,7 +51,7 @@ export default function CardRender({item, index}: CardRenderProps) {
               className = " text-stone-600 ml-[5px] bg-stone-300 p-[5px] h-[25px] w-[25px] rounded hover:bg-[#666666] hover:text-cyan-50 text-center"
               onClick = {handleReduceItem}
             >
-              -
+              -Ё
             </button>
             
             <button 
