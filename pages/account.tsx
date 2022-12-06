@@ -25,7 +25,7 @@ function Account() {
 
   async function becomeSellerClick() {
     try {
-      await (await contrWithSigner()).becomeSeller({ gasLimit: 50000 });
+      await (await contrWithSigner()).becomeSeller({ gasLimit: 150000 });
     } catch (error) {
       console.error(error);
     }
@@ -37,7 +37,7 @@ function Account() {
       return <Button onClick={() => setOpen(true)}>Submit item for sale</Button>;
     else
       return (
-        <Button primary onClick={becomeSellerClick}>
+        <Button primary onClick={async () => becomeSellerClick()}>
           Become seller
         </Button>
       );

@@ -28,3 +28,8 @@ interface Contacts {
     contact: string,
     href: string
 }
+
+type CardRenderProps = {
+    item: {name:string, desc: string, img:string, seller: string, price: number};
+    index: number;
+}
