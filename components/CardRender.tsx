@@ -42,16 +42,16 @@ export default function CardRender({item, index}: CardRenderProps) {
             {item.desc}
             <button
               className = " text-stone-600 ml-[15px] mr-[5px] bg-stone-300 p-[5px] h-[25px] w-[25px] rounded hover:bg-[#666666] hover:text-cyan-50 text-center"
-              onClick = {handleAddItem}
+              onClick = {handleReduceItem}
             >
-              +
+              -
             </button>
             {quantity}
             <button
               className = " text-stone-600 ml-[5px] bg-stone-300 p-[5px] h-[25px] w-[25px] rounded hover:bg-[#666666] hover:text-cyan-50 text-center"
-              onClick = {handleReduceItem}
+              onClick = {handleAddItem}
             >
-              -Ё
+              +
             </button>
             
             <button 
