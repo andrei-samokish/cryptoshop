@@ -33,6 +33,14 @@
     "/main": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
+<<<<<<< HEAD
+=======
+      "static/chunks/pages/account.js"
+    ],
+    "/main": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+>>>>>>> 3c77a1144ffda43eec1d99421e0b76fae4b02a0b
       "static/chunks/pages/main.js"
     ]
   },

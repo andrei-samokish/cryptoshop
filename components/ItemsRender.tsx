@@ -1,10 +1,21 @@
-import { useEffect, useState } from "react";
+import {ethers, BigNumber}  from "ethers";
+import { MouseEventHandler, useEffect, useState } from "react";
+import { Grid } from "semantic-ui-react";
 import useLoadItems from "./useLoadItems";
+import CardRender from "../components/CardRender"
+import mainContr from "./mainContr";
 
 export default function ItemsRender() {
   const [items, setItems] = useState<
-    Array<{ name: string; desc: string; img: string; price: number }>
+    Array<{ 
+      name: string; 
+      desc: string; 
+      img: string; 
+      seller: string;
+      price: number }>
   >([]);
+
+  
 
   useEffect(() => {
     (async () => {
@@ -12,23 +23,11 @@ export default function ItemsRender() {
     })();
   }, []);
 
-  function displayItems() {
-    return items.map((item, index) => {
-      return (
-        <div
-          className="w-[75px] h-[150px] border border-solid border-black"
-          key={index}>
-          <h2>{item.name}</h2>
-          <img src={`data:image/svg+xml;base64,${item.img}`} />
-          <h3>{item.price}</h3>
-        </div>
-      );
-    });
-  }
-
   return (
-    <div className="w-40 h-40 flex border border-solid border-black">
-      {displayItems()}
-    </div>
+    <Grid doubling columns={3}>
+      {items.map((item, index) => {
+        return (<CardRender item ={item} index = {index} />)
+        })}
+    </Grid>
   );
 }
