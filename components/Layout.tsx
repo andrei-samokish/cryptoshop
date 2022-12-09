@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { Container } from "semantic-ui-react";
 import { Header } from "./Header";
-
 export default function Layout({ children }: React.PropsWithChildren) {
   return (
     <Container>

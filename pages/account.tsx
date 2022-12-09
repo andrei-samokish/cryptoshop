@@ -2,13 +2,17 @@ import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import { Button } from "semantic-ui-react";
 import contrWithSigner from "../components/connectProvider/contrWithSigner";
+import ItemsRender from "../components/ItemsRender";
 import Layout from "../components/Layout";
-import OwnedItemsRender from "../components/OwnedItemsRender";
+import { LoadType } from "../components/LoadType";
 import SubmitForSalePortal from "../components/SubmitForSalePortal";
+import useLoadItems from "../components/useLoadItems";
 
 function Account() {
   const [open, setOpen] = useState(false);
   const [isSeller, setIsSeller] = useState<boolean>();
+  const [items, setItems] = useState<Item[]>([]);
+  const [amounts, setAmounts] = useState<number[]>([]);
 
   useEffect(() => {
     (async () => {
@@ -19,6 +23,9 @@ function Account() {
           await contr.signer.getAddress()
         )
       );
+      const [newItems, newAmounts] = await useLoadItems(0, LoadType.personal);
+      setItems(newItems);
+      setAmounts(newAmounts);
     })();
   }, []);
 
@@ -47,7 +54,7 @@ function Account() {
       {buttonDisplayHandler()}
       <SubmitForSalePortal open={open} setOpen={setOpen} />
       <h1>Your items:</h1>
-      <OwnedItemsRender />
+      <ItemsRender items={items} amounts={amounts} />
     </Layout>
   );
 }
