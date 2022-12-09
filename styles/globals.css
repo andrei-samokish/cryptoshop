@@ -25,7 +25,7 @@ body {
   background: #E0E1E2 none;
   color: rgba(0, 0, 0, 0.6);
   font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
-  margin: 0em 0.25em 0em 0em;
+  margin: 100px;
   padding: 0.78571429em 1.5em 0.78571429em;
   text-transform: none;
   text-shadow: none;
@@ -45,6 +45,19 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
+.wrapper {
+  position: absolute;
+}
+.box {
+  width: 100px;
+  height: 100px; /* если высота не будет задана явна, она будет равна 100% */
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
 
 .ui.grid {
   display: flex;
@@ -52,4 +65,29 @@ body {
   flex-wrap: wrap;
   align-items: stretch;
   padding: 0em;
+}
+
+.ui.input {
+  position: relative;
+  font-weight: normal;
+  font-style: normal;
+  display: inline-flex;
+  color: rgba(0, 0, 0, 0.87);
+}
+.ui.input > input {
+  margin: 0em;
+  max-width: 100%;
+  flex: 1 0 auto;
+  outline: none;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+  text-align: left;
+  line-height: 1.21428571em;
+  font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  padding: 0.67857143em 1em;
+  background: #FFFFFF;
+  border: 1px solid rgba(34, 36, 38, 0.15);
+  color: rgba(0, 0, 0, 0.87);
+  border-radius: 0.28571429rem;
+  transition: box-shadow 0.1s ease, border-color 0.1s ease;
+  box-shadow: none;
 }

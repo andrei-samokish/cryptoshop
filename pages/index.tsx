@@ -29,26 +29,19 @@ function HomePage(): JSX.Element {
   }
 
   const isNotRegisteredUser = 
-  <Grid columns={3}>
-    <Grid.Column>
-      <Link href = "/main" className = "ui-button">
-        <Button>browse items</Button>
-      </Link>
-    </Grid.Column>
-    <Grid.Column> 
-      <Input
-        placeholder="enter your nickname"
-        type="text"
-        action
-        onChange={(e) => setNickname(e.target.value)}>
-        <input />
-      </Input>
-    </Grid.Column>
-    <Grid.Column className="grid-column">
-      <Button onClick={register}>Register</Button>
-    </Grid.Column>
-  </Grid>
-  
+  <div className = "wrapper">
+    <Link href = "/main" >
+      <Button className = "ui-button">browse items</Button>
+    </Link>
+    <Input
+      placeholder="enter your nickname"
+      type="text"
+      action
+      onChange={(e) => setNickname(e.target.value)}> 
+    </Input>
+    <Button onClick={register}>Register</Button>
+  </div>
+
   
 
   const isRegisteredUser =  <div className = "div-centering">
