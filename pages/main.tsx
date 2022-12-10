@@ -7,22 +7,20 @@ import { LoadType } from "../components/LoadType";
 
 export default function Main() {
   const [items, setItems] = useState<Item[]>([]);
-  const [numberOfLoadingCycles, setNumberOfLoadingCycles] = useState(0); // for LOAD MORE button
+  const [renderedAmount, setRenderedAmount] = useState(0); // for LOAD MORE button
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
-      setItems((await useLoadItems(numberOfLoadingCycles, LoadType.general))[0]); // LoadType - enum for useLoadItems hook
-      setNumberOfLoadingCycles((prev) => prev + 8);
+      setItems((await useLoadItems(renderedAmount, setRenderedAmount, LoadType.general))[0]); // LoadType - enum for useLoadItems hook
       setIsLoading(false);
     })();
   }, []);
 
   async function handleShowMoreClick() {
     setIsLoading(true);
-    const newItems = (await useLoadItems(numberOfLoadingCycles, LoadType.general))[0];
+    const newItems = (await useLoadItems(renderedAmount, setRenderedAmount, LoadType.general))[0];
     setItems([...items, ...newItems]);
-    setNumberOfLoadingCycles((prev) => prev + 8);
     setIsLoading(false);
   }
 

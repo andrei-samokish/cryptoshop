@@ -17,7 +17,7 @@ function Account() {
   const [hasAnyItem, setHasAnyItem] = useState(true); // does user have any items (after we fetch it)
   const [isLoading, setIsLoading] = useState(true); // for LOAD MORE button loading state
 
-  const [numberOfLoadingCycles, setNumberOfLoadingCycles] = useState(0); // for LOAD MORE button
+  const [renderedAmount, setRenderedAmount] = useState(0); // for LOAD MORE button
 
   useEffect(() => {
     (async () => {
@@ -28,11 +28,14 @@ function Account() {
           await contr.signer.getAddress()
         )
       );
-      const [newItems, newAmounts] = await useLoadItems(0, LoadType.personal);
+      const [newItems, newAmounts] = await useLoadItems(
+        renderedAmount,
+        setRenderedAmount,
+        LoadType.personal
+      );
       setItems(newItems);
       setAmounts(newAmounts);
       setIsLoading(false);
-      setNumberOfLoadingCycles((prev) => prev + 8);
       if (!newAmounts.length) {
         setHasAnyItem(false);
       } else setHasAnyItem(true);
@@ -41,9 +44,13 @@ function Account() {
 
   async function handleShowMoreClick() {
     setIsLoading(true);
-    const newItems = (await useLoadItems(numberOfLoadingCycles, LoadType.general))[0];
+    const [newItems, newAmounts] = await useLoadItems(
+      renderedAmount,
+      setRenderedAmount,
+      LoadType.general
+    );
     setItems([...items, ...newItems]);
-    setNumberOfLoadingCycles((prev) => prev + 8);
+    setAmounts([...amounts, ...newAmounts]);
     setIsLoading(false);
   }
 

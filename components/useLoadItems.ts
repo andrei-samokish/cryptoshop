@@ -1,22 +1,29 @@
+import { SetStateAction } from "react";
 import contrWithSigner from "./connectProvider/contrWithSigner";
 import { LoadType } from "./LoadType";
 import mainContr from "./mainContr";
 
 export default async function useLoadItems(
   renderedAmount: number,
+  setRenderedAmount: React.Dispatch<SetStateAction<number>>,
   type: LoadType,
   search?: string
 ): Promise<[Item[], number[]]> {
   let items: Item[] = [];
   let amounts: number[] = [];
   const contract = await contrWithSigner();
+  let i = renderedAmount;
+  let rendered = 0;
 
   switch (type) {
     case "general":
-      for (let i = renderedAmount; i < renderedAmount + 8; i++) {
+      while (rendered < 6) {
         try {
           const itemInfo = await mainContr.items(i);
-          if (!(await mainContr.balanceOf(itemInfo[2], i)).toNumber()) continue; // check if still selling
+          if (!(await mainContr.balanceOf(itemInfo[2], i)).toNumber()) {
+            i += 1;
+            continue;
+          } // check if still selling
 
           const name = await mainContr.names(i);
           const item = {
@@ -28,13 +35,15 @@ export default async function useLoadItems(
             price: itemInfo[3].toNumber(),
           };
           items.push(item);
+          rendered += 1;
         } catch (err) {
           break;
         }
+        i += 1;
       }
       break;
     case "personal":
-      for (let i = renderedAmount; i < renderedAmount + 8; i++) {
+      while (rendered < 6) {
         try {
           const id = await contract.ownedItems(await contract.signer.getAddress(), i, 0);
           const amount = await contract.ownedItems(await contract.signer.getAddress(), i, 1);
@@ -52,19 +61,27 @@ export default async function useLoadItems(
             price: itemInfo[3].toNumber(),
           };
           items.push(item);
+          rendered += 1;
         } catch (err) {
           console.error(err);
           break;
         }
+        i += 1;
       }
       break;
     case "searched":
-      for (let i = renderedAmount; i < renderedAmount + 8; i++) {
+      while (rendered < 6) {
         try {
           const name = await mainContr.names(i);
-          if (!name.toLowerCase().includes(search as string)) continue; //check if corresponds to a search request
+          if (!name.toLowerCase().includes(search as string)) {
+            i += 1;
+            continue;
+          } //check if corresponds with a search request
           const itemInfo = await mainContr.items(i);
-          if (!(await mainContr.balanceOf(itemInfo[2], i)).toNumber()) continue; // check if still selling
+          if (!(await mainContr.balanceOf(itemInfo[2], i)).toNumber()) {
+            i += 1;
+            continue;
+          } // check if still selling
           const item = {
             id: i,
             name,
@@ -74,11 +91,15 @@ export default async function useLoadItems(
             price: itemInfo[3].toNumber(),
           };
           items.push(item);
+          rendered += 1;
         } catch (err) {
           break;
         }
+        i += 1;
       }
   }
+
+  setRenderedAmount(renderedAmount + rendered);
 
   return [items, amounts];
 }

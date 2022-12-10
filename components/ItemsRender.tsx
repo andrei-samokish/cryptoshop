@@ -19,7 +19,7 @@ export default function ItemsRender({ items, amounts, onMoreClick, isLoading }: 
           else return <ItemCard item={item} key={index} />;
         })}
         {items.length ? (
-          <div className="w-1/3 flex justify-center items-center">
+          <div className="w-1/3 flex justify-center items-center h-52">
             <Button size="big" onClick={async () => await onMoreClick()} loading={isLoading}>
               Load More
             </Button>
