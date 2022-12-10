@@ -4,6 +4,7 @@ coverage.json
 typechain
 .env
 .env.local
+.next
 
 #Hardhat files
 cache
