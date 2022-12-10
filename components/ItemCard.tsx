@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Card, Grid, GridColumn, Image } from "semantic-ui-react";
 import contrWithSigner from "./connectProvider/contrWithSigner";
 import { v4 as uuidv4 } from "uuid";
+import { CardProps, Item } from "../global-types";
 
 export default function ItemCard({ item }: CardProps) {
   const [quantity, setQuantuity] = useState(0);
@@ -11,9 +12,8 @@ export default function ItemCard({ item }: CardProps) {
     try {
       (await contrWithSigner()).buy(item.id, quantity, {
         gasLimit: 3000000,
-        value: item.price * quantity,
+        value: item.price.mul(quantity),
       });
-      console.log(item.price * quantity);
     } catch (error) {
       console.error(error);
     }
@@ -26,7 +26,7 @@ export default function ItemCard({ item }: CardProps) {
     if (quantity > 0) setQuantuity((prev) => prev - 1);
   }
   return (
-    <div className="w-1/3">
+    <div className="w-1/3 mb-10">
       <Card key={uuidv4()} raised centered>
         <Image src={`data:image/svg+xml;base64,${item.img}`} wrapped ui={false} />
         <Card.Content>

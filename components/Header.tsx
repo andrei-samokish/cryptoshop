@@ -13,7 +13,7 @@ function Header(): JSX.Element {
   }
 
   return (
-    <Menu>
+    <Menu fluid>
       <Link href="/main">
         <Menu.Item>
           <div className="font-black text-lg hover:underline">ζ</div>

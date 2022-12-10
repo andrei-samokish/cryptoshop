@@ -1,4 +1,4 @@
-
+import { BigNumber } from "ethers";
 import { Dispatch, SetStateAction, useState } from "react";
 
 type ButtonProps = {
@@ -16,7 +16,7 @@ type NavbarProps = {
 
 type InputProps = {
   placeholder?: string;
-  
+
   on_change: (a) => void;
 };
 
@@ -42,7 +42,7 @@ type Item = {
   desc: string;
   img: string;
   seller: string;
-  price: number;
+  price: BigNumber;
 };
 
 type ShowMoreButtonProps = {

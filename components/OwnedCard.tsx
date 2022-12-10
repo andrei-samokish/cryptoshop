@@ -40,7 +40,7 @@ export default function OwnedCard({ item, amount }: CardProps) {
           <Card.Meta>{ethers.utils.formatEther(item.price) + "Ξ"}</Card.Meta>
           <Card.Description>You have {amount} of those!</Card.Description>
         </Card.Content>
-        {isSeller && (
+        {isSeller ? (
           <Card.Content extra>
             <Grid columns={2}>
               <Grid.Column stretched>
@@ -73,6 +73,16 @@ export default function OwnedCard({ item, amount }: CardProps) {
                   on="click"
                   position="top right"
                 />
+              </Grid.Column>
+            </Grid>
+          </Card.Content>
+        ) : (
+          <Card.Content extra>
+            <Grid columns={1}>
+              <Grid.Column stretched>
+                <Button basic>
+                  Coming <br></br>soon...
+                </Button>
               </Grid.Column>
             </Grid>
           </Card.Content>

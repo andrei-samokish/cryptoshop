@@ -21,7 +21,7 @@ export default async function useLoadItems(
       while (rendered < 6) {
         try {
           const itemInfo = await mainContr.items(i);
-          if (!(await mainContr.balanceOf(itemInfo[2], i)).toNumber()) {
+          if ((await mainContr.balanceOf(itemInfo[2], i)).isZero()) {
             i += 1;
             continue;
           } // check if still selling
@@ -33,7 +33,7 @@ export default async function useLoadItems(
             desc: itemInfo[0],
             img: itemInfo[1],
             seller: itemInfo[2],
-            price: itemInfo[3].toNumber(),
+            price: itemInfo[3],
           };
           items.push(item);
           rendered += 1;
@@ -59,7 +59,7 @@ export default async function useLoadItems(
             desc: itemInfo[0],
             img: itemInfo[1],
             seller: itemInfo[2],
-            price: itemInfo[3].toNumber(),
+            price: itemInfo[3],
           };
           items.push(item);
           rendered += 1;
@@ -79,7 +79,7 @@ export default async function useLoadItems(
             continue;
           } //check if corresponds with a search request
           const itemInfo = await mainContr.items(i);
-          if (!(await mainContr.balanceOf(itemInfo[2], i)).toNumber()) {
+          if ((await mainContr.balanceOf(itemInfo[2], i)).isZero()) {
             i += 1;
             continue;
           } // check if still selling
@@ -89,7 +89,7 @@ export default async function useLoadItems(
             desc: itemInfo[0],
             img: itemInfo[1],
             seller: itemInfo[2],
-            price: itemInfo[3].toNumber(),
+            price: itemInfo[3],
           };
           items.push(item);
           rendered += 1;
