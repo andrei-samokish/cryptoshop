@@ -1,5 +1,5 @@
-import { Dispatch, SetStateAction, useState } from "react";
-import { Button, Header, Portal, Segment } from "semantic-ui-react";
+import { Dispatch, SetStateAction } from "react";
+import { Header, Portal, Segment } from "semantic-ui-react";
 import AddItem from "./AddItem";
 
 type PortalProps = {

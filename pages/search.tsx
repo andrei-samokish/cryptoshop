@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ItemsRender from "../components/ItemsRender";
 import Layout from "../components/Layout";
 import { LoadType } from "../components/LoadType";

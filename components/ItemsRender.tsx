@@ -1,5 +1,4 @@
-import { SetStateAction, useState } from "react";
-import { Button, Dimmer, Grid, Loader } from "semantic-ui-react";
+import { Button, Loader } from "semantic-ui-react";
 import ItemCard from "./ItemCard";
 import OwnedCard from "./OwnedCard";
 
