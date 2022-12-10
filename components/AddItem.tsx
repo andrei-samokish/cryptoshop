@@ -1,15 +1,15 @@
 import axios from "axios";
 import { Input } from "./Input";
 import React, { FormEvent, useState } from "react";
-
-// import { SVGFormula } from "../pages/api/image";
 import contrWithSigner from "./connectProvider/contrWithSigner";
 import { PortalProps } from "../global-types";
+import { BigNumber, ethers } from "ethers";
+import { privateEncrypt } from "crypto";
 
 function AddItem(props: PortalProps) {
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
-  const [price, setPrice] = useState<number>(0);
+  const [price, setPrice] = useState<BigNumber>(BigNumber.from(0));
   const [stock, setStock] = useState<number>(0);
   const [valid, setValid] = useState("");
   const [uploading, setUploading] = useState(false);
@@ -34,7 +34,7 @@ function AddItem(props: PortalProps) {
   async function handleFormSubmit(event: FormEvent) {
     event.preventDefault();
 
-    if (name && desc && selectedFile && price && stock) {
+    if (name && desc && selectedFile && !price.isZero() && stock) {
       await handleUploadImage();
       (await contrWithSigner()).submitCommodity(name, desc, btoa(svg), price, stock);
       props.setOpen(false);
@@ -79,10 +79,12 @@ function AddItem(props: PortalProps) {
             on_change={(e) => setDesc(e.target.value)}></Input>
           <Input
             placeholder="enter the price"
-            on_change={(e) => setPrice(Number(e.target.value))}></Input>
+            on_change={(e) =>
+              setPrice(ethers.utils.parseEther(e.target.value ? e.target.value : "0"))
+            }></Input>
           <Input
             placeholder="enter stock"
-            on_change={(e) => setStock(Number(e.target.value))}></Input>
+            on_change={(e) => setStock(parseInt(e.target.value))}></Input>
         </div>
         {valid === "" ? "" : <h1 className="m-[auto]">{valid}</h1>}
         <button
