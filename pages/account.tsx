@@ -8,11 +8,12 @@ import Layout from "../components/Layout";
 import { LoadType } from "../components/LoadType";
 import SubmitForSalePortal from "../components/SubmitForSalePortal";
 import useLoadItems from "../components/useLoadItems";
+import { Items } from "../global-types";
 
 function Account() {
   const [open, setOpen] = useState(false); // for submit portal
   const [isSeller, setIsSeller] = useState<boolean>();
-  const [items, setItems] = useState<Item[]>([]);
+  const [items, setItems] = useState<Items>([]);
   const [amounts, setAmounts] = useState<number[]>([]); // amounts of each loaded item
   const [hasAnyItem, setHasAnyItem] = useState(true); // does user have any items (after we fetch it)
   const [isLoading, setIsLoading] = useState(true); // for LOAD MORE button loading state

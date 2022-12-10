@@ -2,6 +2,7 @@ import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import { Card, Grid, Popup, Button, Input, Image } from "semantic-ui-react";
 import { v4 as uuidv4 } from "uuid";
+import { CardProps } from "../global-types";
 import contrWithSigner from "./connectProvider/contrWithSigner";
 
 export default function OwnedCard({ item, amount }: CardProps) {

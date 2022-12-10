@@ -1,4 +1,5 @@
 import { SetStateAction } from "react";
+import { Items } from "../global-types";
 import contrWithSigner from "./connectProvider/contrWithSigner";
 import { LoadType } from "./LoadType";
 import mainContr from "./mainContr";
@@ -8,8 +9,8 @@ export default async function useLoadItems(
   setRenderedAmount: React.Dispatch<SetStateAction<number>>,
   type: LoadType,
   search?: string
-): Promise<[Item[], number[]]> {
-  let items: Item[] = [];
+): Promise<[Items, number[]]> {
+  let items: Items = [];
   let amounts: number[] = [];
   const contract = await contrWithSigner();
   let i = renderedAmount;

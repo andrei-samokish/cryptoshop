@@ -3,6 +3,7 @@ import ItemsRender from "../components/ItemsRender";
 import Layout from "../components/Layout";
 import { LoadType } from "../components/LoadType";
 import useLoadItems from "../components/useLoadItems";
+import { Items } from "../global-types";
 
 export default function Search() {
   const [renderedAmount, setRenderedAmount] = useState(0); // for LOAD MORE button

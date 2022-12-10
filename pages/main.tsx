@@ -4,9 +4,10 @@ import ItemsRender from "../components/ItemsRender";
 import { useEffect, useState } from "react";
 import useLoadItems from "../components/useLoadItems";
 import { LoadType } from "../components/LoadType";
+import { Items } from "../global-types";
 
 export default function Main() {
-  const [items, setItems] = useState<Item[]>([]);
+  const [items, setItems] = useState<Items>([]);
   const [renderedAmount, setRenderedAmount] = useState(0); // for LOAD MORE button
   const [isLoading, setIsLoading] = useState(true);
 

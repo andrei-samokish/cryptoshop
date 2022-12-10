@@ -1,4 +1,5 @@
 import { Button, Loader } from "semantic-ui-react";
+import { Items } from "../global-types";
 import ItemCard from "./ItemCard";
 import OwnedCard from "./OwnedCard";
 
