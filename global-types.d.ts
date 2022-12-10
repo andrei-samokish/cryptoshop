@@ -1,3 +1,6 @@
+
+import { Dispatch, SetStateAction, useState } from "react";
+
 type ButtonProps = {
   title: string;
   className: string;
@@ -13,8 +16,13 @@ type NavbarProps = {
 
 type InputProps = {
   placeholder?: string;
-
+  
   on_change: (a) => void;
+};
+
+type PortalProps = {
+  open: boolean;
+  setOpen: Dispatch<SetStateAction<boolean>>;
 };
 
 type ProductCardProps = {

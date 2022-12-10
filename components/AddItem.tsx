@@ -4,8 +4,9 @@ import React, { FormEvent, useState } from "react";
 
 // import { SVGFormula } from "../pages/api/image";
 import contrWithSigner from "./connectProvider/contrWithSigner";
+import { PortalProps } from "../global-types";
 
-function AddItem() {
+function AddItem(props: PortalProps) {
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
   const [price, setPrice] = useState<number>(0);
@@ -42,6 +43,7 @@ function AddItem() {
         price,
         stock
       );
+      props.setOpen(false)
     } else {
       setValid("it is nessesary to fill all the fields");
     }

@@ -18,7 +18,7 @@ export default function SubmitForSalePortal({ open, setOpen }: PortalProps) {
           zIndex: 1000,
         }}>
         <Header>Submit your commodity here!</Header>
-        <AddItem />
+        <AddItem setOpen={setOpen} open = {open}/>
       </Segment>
     </Portal>
   );
