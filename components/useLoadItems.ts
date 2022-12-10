@@ -1,4 +1,4 @@
-import { SetStateAction } from "react";
+import React, { SetStateAction, useState } from "react";
 import { Items } from "../global-types";
 import contrWithSigner from "./connectProvider/contrWithSigner";
 import { LoadType } from "./LoadType";
@@ -7,13 +7,15 @@ import mainContr from "./mainContr";
 export default async function useLoadItems(
   renderedAmount: number,
   setRenderedAmount: React.Dispatch<SetStateAction<number>>,
+  lastCheckedItem: number,
+  setLastCheckedItem: React.Dispatch<SetStateAction<number>>,
   type: LoadType,
   search?: string
 ): Promise<[Items, number[]]> {
   let items: Items = [];
   let amounts: number[] = [];
   const contract = await contrWithSigner();
-  let i = renderedAmount;
+  let i = lastCheckedItem;
   let rendered = 0;
 
   switch (type) {
@@ -64,7 +66,6 @@ export default async function useLoadItems(
           items.push(item);
           rendered += 1;
         } catch (err) {
-          console.error(err);
           break;
         }
         i += 1;
@@ -101,6 +102,7 @@ export default async function useLoadItems(
   }
 
   setRenderedAmount(renderedAmount + rendered);
+  setLastCheckedItem(i);
 
   return [items, amounts];
 }

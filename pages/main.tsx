@@ -10,23 +10,42 @@ export default function Main() {
   const [items, setItems] = useState<Items>([]);
   const [renderedAmount, setRenderedAmount] = useState(0); // for LOAD MORE button
   const [isLoading, setIsLoading] = useState(true);
+  const [lastCheckedItem, setLastCheckedItem] = useState(0); // last item fetched from blockchain
 
   useEffect(() => {
     (async () => {
-      setItems((await useLoadItems(renderedAmount, setRenderedAmount, LoadType.general))[0]); // LoadType - enum for useLoadItems hook
+      setItems(
+        (
+          await useLoadItems(
+            renderedAmount,
+            setRenderedAmount,
+            lastCheckedItem,
+            setLastCheckedItem,
+            LoadType.general
+          )
+        )[0]
+      ); // LoadType - enum for useLoadItems hook
       setIsLoading(false);
     })();
   }, []);
 
   async function handleShowMoreClick() {
     setIsLoading(true);
-    const newItems = (await useLoadItems(renderedAmount, setRenderedAmount, LoadType.general))[0];
+    const newItems = (
+      await useLoadItems(
+        renderedAmount,
+        setRenderedAmount,
+        lastCheckedItem,
+        setLastCheckedItem,
+        LoadType.general
+      )
+    )[0];
     setItems([...items, ...newItems]);
     setIsLoading(false);
   }
 
   return (
-    <div className="bg-gradient-to-b from-indigo-500 to-gray-300 h-screen">
+    <div className="bg-gradient-to-b from-indigo-500 to-gray-300 h-full">
       <Layout>
         <ItemsRender items={items} onMoreClick={handleShowMoreClick} isLoading={isLoading} />
       </Layout>

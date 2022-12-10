@@ -1,4 +1,4 @@
-import { Button, Loader } from "semantic-ui-react";
+import { Button, Container, Loader } from "semantic-ui-react";
 import { Items } from "../global-types";
 import ItemCard from "./ItemCard";
 import OwnedCard from "./OwnedCard";
@@ -12,7 +12,7 @@ type ItemsRenderProps = {
 
 export default function ItemsRender({ items, amounts, onMoreClick, isLoading }: ItemsRenderProps) {
   return (
-    <>
+    <div className={isLoading && !items.length ? "h-screen" : ""}>
       <div className="flex flex-row w-full h-auto flex-wrap justify-start">
         {items.map((item, index) => {
           if (amounts) return <OwnedCard item={item} amount={amounts[index]} />;
@@ -30,6 +30,6 @@ export default function ItemsRender({ items, amounts, onMoreClick, isLoading }: 
           </Loader>
         ) : null}
       </div>
-    </>
+    </div>
   );
 }

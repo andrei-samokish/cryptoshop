@@ -17,6 +17,7 @@ function Account() {
   const [amounts, setAmounts] = useState<number[]>([]); // amounts of each loaded item
   const [hasAnyItem, setHasAnyItem] = useState(true); // does user have any items (after we fetch it)
   const [isLoading, setIsLoading] = useState(true); // for LOAD MORE button loading state
+  const [lastCheckedItem, setLastCheckedItem] = useState(0); // last item fetched from blockchain
 
   const [renderedAmount, setRenderedAmount] = useState(0); // for LOAD MORE button
 
@@ -32,6 +33,8 @@ function Account() {
       const [newItems, newAmounts] = await useLoadItems(
         renderedAmount,
         setRenderedAmount,
+        lastCheckedItem,
+        setLastCheckedItem,
         LoadType.personal
       );
       setItems(newItems);
@@ -48,6 +51,8 @@ function Account() {
     const [newItems, newAmounts] = await useLoadItems(
       renderedAmount,
       setRenderedAmount,
+      lastCheckedItem,
+      setLastCheckedItem,
       LoadType.personal
     );
     setItems([...items, ...newItems]);
@@ -76,7 +81,7 @@ function Account() {
   }
 
   return (
-    <div className="bg-gradient-to-b from-indigo-500 to-gray-300 h-screen">
+    <div className="bg-gradient-to-b from-indigo-500 to-gray-300 h-full">
       <Layout>
         {buttonDisplayHandler()}
         <SubmitForSalePortal open={open} setOpen={setOpen} />
@@ -91,7 +96,7 @@ function Account() {
             />
           </>
         ) : (
-          <h1 className="text-white">
+          <h1 className="text-white h-screen">
             Seems like you dont have any items yet...{" "}
             <Link href="/main">
               {" "}

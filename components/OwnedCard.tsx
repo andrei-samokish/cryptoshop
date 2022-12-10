@@ -33,7 +33,7 @@ export default function OwnedCard({ item, amount }: CardProps) {
   }
   return (
     <div className="w-1/3">
-      <Card key={uuidv4()}>
+      <Card key={uuidv4()} centered>
         <Image src={`data:image/svg+xml;base64,${item.img}`} wrapped ui={false} />
         <Card.Content>
           <Card.Header>{item.name}</Card.Header>

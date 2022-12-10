@@ -27,7 +27,7 @@ function HomePage(): JSX.Element {
 
   return (
     <div className="h-screen w-full flex justify-center flex-col items-center bg-gradient-to-b from-indigo-500 to-gray-300">
-      <h1 className="font-black mb-24 underline text-white">WELCOME TO BAZZAR</h1>
+      <h1 className="font-black mb-24 underline text-white">WELCOME TO BAζζAR</h1>
       <div className="flex flex-col h-96 w-1/5 rounded-lg border-black border border-solid justify-center bg-indigo-200">
         <div className="flex flex-col w-full h-1/2 justify-center items-center">
           <div>
