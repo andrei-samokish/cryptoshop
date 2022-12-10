@@ -48,7 +48,7 @@ function Account() {
     const [newItems, newAmounts] = await useLoadItems(
       renderedAmount,
       setRenderedAmount,
-      LoadType.general
+      LoadType.personal
     );
     setItems([...items, ...newItems]);
     setAmounts([...amounts, ...newAmounts]);
