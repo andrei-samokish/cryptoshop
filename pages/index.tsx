@@ -25,6 +25,31 @@ function HomePage(): JSX.Element {
     }
   }
 
+<<<<<<< HEAD
+=======
+  const isNotRegisteredUser = 
+  <div className = "wrapper">
+    <Link href = "/main" >
+      <Button className = "ui-button">browse items</Button>
+    </Link>
+    <Input
+      placeholder="enter your nickname"
+      type="text"
+      action
+      onChange={(e) => setNickname(e.target.value)}> 
+    </Input>
+    <Button onClick={register}>Register</Button>
+  </div>
+
+  
+
+  const isRegisteredUser =  <div className = "div-centering">
+    <Link href = "/main" className = "ui-button">
+      <button>browse items</button>
+    </Link>
+  </div>
+  
+>>>>>>> dev_andrei
   return (
     <div className="h-screen w-full flex justify-center flex-col items-center bg-gradient-to-b from-indigo-500 to-gray-300">
       <h1 className="font-black mb-24 underline text-white">WELCOME TO BAZZAR</h1>
