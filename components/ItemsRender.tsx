@@ -23,11 +23,11 @@ export default function ItemsRender({ items, amounts, onMoreClick, isLoading }: 
               Load More
             </Button>
           </div>
-        ) : (
+        ) : isLoading ? (
           <Loader size="big" active>
             Loading
           </Loader>
-        )}
+        ) : null}
       </div>
     </>
   );

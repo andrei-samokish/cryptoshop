@@ -8,24 +8,21 @@ export default function Search() {
   const [renderedAmount, setRenderedAmount] = useState(0); // for LOAD MORE button
   const [items, setItems] = useState<Items>([]);
   const [searchRequest, setSearchRequest] = useState("");
+  const [isAnyItem, setIsAnyItem] = useState(true);
   const [isLoading, setIsLoading] = useState(true); // for LOAD MORE button (after we fetch)
 
   useEffect(() => {
     (async () => {
       const req = localStorage.getItem("req");
       setSearchRequest(req as string);
-      setItems(
-        (
-          await useLoadItems(
-            renderedAmount,
-            setRenderedAmount,
-            LoadType.searched,
-            req?.toLowerCase()
-          )
-        )[0]
-      );
+      const newItems = (
+        await useLoadItems(renderedAmount, setRenderedAmount, LoadType.searched, req?.toLowerCase())
+      )[0];
+      setItems(newItems);
+      setIsLoading(false);
+      if (newItems.length) setIsAnyItem(true);
+      else setIsAnyItem(false);
     })();
-    setIsLoading(false);
   }, []);
 
   async function handleShowMoreClick() {
@@ -44,9 +41,15 @@ export default function Search() {
   return (
     <div className="bg-gradient-to-b from-indigo-500 to-gray-300 h-screen">
       <Layout>
-        <h1 className="text-white">
-          All <strong>"{searchRequest}"</strong> items:
-        </h1>
+        {isAnyItem ? (
+          <h1 className="text-white">
+            All <strong>"{searchRequest}"</strong> items:
+          </h1>
+        ) : (
+          <h1 className="text-white">
+            Seems like there a no <strong>"{searchRequest}"</strong> items on sale
+          </h1>
+        )}
         <ItemsRender items={items} onMoreClick={handleShowMoreClick} isLoading={isLoading} />
       </Layout>
     </div>
