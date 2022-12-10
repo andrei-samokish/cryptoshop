@@ -8,29 +8,28 @@ import { LoadType } from "../components/LoadType";
 export default function Main() {
   const [items, setItems] = useState<Item[]>([]);
   const [numberOfLoadingCycles, setNumberOfLoadingCycles] = useState(0); // for LOAD MORE button
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
       setItems((await useLoadItems(numberOfLoadingCycles, LoadType.general))[0]); // LoadType - enum for useLoadItems hook
       setNumberOfLoadingCycles((prev) => prev + 8);
+      setIsLoading(false);
     })();
   }, []);
 
   async function handleShowMoreClick() {
+    setIsLoading(true);
     const newItems = (await useLoadItems(numberOfLoadingCycles, LoadType.general))[0];
     setItems([...items, ...newItems]);
     setNumberOfLoadingCycles((prev) => prev + 8);
+    setIsLoading(false);
   }
 
   return (
-    <div>
+    <div className="bg-gradient-to-b from-indigo-500 to-gray-300 h-screen">
       <Layout>
-        <ItemsRender items={items} />
-        {items.length ? (
-          <button className="ui button mt-5" onClick={handleShowMoreClick}>
-            Load more
-          </button>
-        ) : null}
+        <ItemsRender items={items} onMoreClick={handleShowMoreClick} isLoading={isLoading} />
       </Layout>
     </div>
   );

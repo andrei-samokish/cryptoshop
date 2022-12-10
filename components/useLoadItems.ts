@@ -53,6 +53,7 @@ export default async function useLoadItems(
           };
           items.push(item);
         } catch (err) {
+          console.error(err);
           break;
         }
       }
