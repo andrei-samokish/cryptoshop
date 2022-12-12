@@ -81,7 +81,7 @@ function Account() {
   }
 
   return (
-    <div className="bg-gradient-to-b from-indigo-500 to-gray-300 h-full">
+    <div className="bg-gradient-to-b from-indigo-500 to-gray-300 h-screen">
       <Layout>
         {buttonDisplayHandler()}
         <SubmitForSalePortal open={open} setOpen={setOpen} />

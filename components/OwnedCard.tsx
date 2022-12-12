@@ -16,12 +16,13 @@ export default function OwnedCard({ item, amount }: CardProps) {
     })();
   }, []);
 
-  async function handleFillClick(id: number) {
-    try {
-      await (await contrWithSigner()).fillStock(id, fillAmount);
-    } catch (error) {
-      console.error(error);
-    }
+  async function handleFillClick(e: React.KeyboardEvent<HTMLInputElement>, id: number) {
+    if (e.key == "Enter")
+      try {
+        await (await contrWithSigner()).fillStock(id, fillAmount);
+      } catch (error) {
+        console.error(error);
+      }
   }
 
   async function handleWithdrawClick(id: number) {
@@ -32,7 +33,7 @@ export default function OwnedCard({ item, amount }: CardProps) {
     }
   }
   return (
-    <div className="w-1/3">
+    <div className="w-1/3 mb-10">
       <Card key={uuidv4()} centered>
         <Image src={`data:image/svg+xml;base64,${item.img}`} wrapped ui={false} />
         <Card.Content>
@@ -41,12 +42,13 @@ export default function OwnedCard({ item, amount }: CardProps) {
           <Card.Description>You have {amount} of those!</Card.Description>
         </Card.Content>
         {isSeller ? (
-          <Card.Content extra>
+          <Card.Content extra key="c">
             <Grid columns={2}>
               <Grid.Column stretched>
                 <Popup
                   trigger={<Button content="Withdraw from sale" basic />}
-                  content={
+                  hideOnScroll
+                  children={
                     <Button
                       color="red"
                       content="Sure?"
@@ -57,21 +59,16 @@ export default function OwnedCard({ item, amount }: CardProps) {
                   position="top right"
                 />
               </Grid.Column>
-              <Grid.Column stretched>
-                <Popup
-                  trigger={<Button content="Fill stock" basic />}
-                  content={
-                    <Input
-                      placeholder="amount"
-                      type="text"
-                      action
-                      onChange={(e) => setFillAmount(parseInt(e.target.value))}>
-                      <input />
-                      <Button onClick={() => handleFillClick(item.id)}>Fill</Button>
-                    </Input>
-                  }
-                  on="click"
-                  position="top right"
+              <Grid.Column stretched key="a">
+                <label className="block mb-2 text-sm font-medium text-gray-900">Fill stock</label>
+                <input
+                  className="bg-white border border-gray-400 text-gray-900 text-sm font-semibold rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 shadow"
+                  placeholder="amount"
+                  type="number"
+                  autoFocus={!!fillAmount}
+                  onKeyDown={async (e) => await handleFillClick(e, item.id)}
+                  onChange={(e) => setFillAmount(parseInt(e.target.value))}
+                  value={fillAmount}
                 />
               </Grid.Column>
             </Grid>

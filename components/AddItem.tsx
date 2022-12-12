@@ -66,7 +66,7 @@ function AddItem(props: PortalProps) {
                     font-medium mx-[25px] my-[15px] bg-slate-400 cursor-pointer 
                     border-black border-[2px] block
                     hover:bg-slate-600 hover:text-white hover:border-white">
-            <h1 className="pt-[10px] font-mono font-medium text-base">Choose an image</h1>
+            <h1 className="pt-[10px] font-mono font-medium text-base">Choose SVG image</h1>
           </label>
           <img src={selectedFileUrl} />
         </div>
@@ -78,7 +78,7 @@ function AddItem(props: PortalProps) {
             placeholder="enter the description"
             on_change={(e) => setDesc(e.target.value)}></Input>
           <Input
-            placeholder="enter the price"
+            placeholder="enter the price (ETH)"
             on_change={(e) =>
               setPrice(ethers.utils.parseEther(e.target.value ? e.target.value : "0"))
             }></Input>

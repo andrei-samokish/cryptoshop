@@ -14,11 +14,11 @@ export default function SubmitForSalePortal({ open, setOpen }: PortalProps) {
         style={{
           left: "40%",
           position: "fixed",
-          top: "50%",
+          top: "20%",
           zIndex: 1000,
         }}>
         <Header>Submit your commodity here!</Header>
-        <AddItem setOpen={setOpen} open = {open}/>
+        <AddItem setOpen={setOpen} open={open} />
       </Segment>
     </Portal>
   );
