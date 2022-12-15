@@ -63,3 +63,8 @@ To run this project, you will need to add the following environment variables to
 
 **Server:** Node, Vercel
 
+
+## Authors
+
+- [@andrei-samokish](https://github.com/andrei-samokish)
+- [@ThomasAqu1nas](https://github.com/ThomasAqu1nas)
