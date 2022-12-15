@@ -50,7 +50,7 @@ export default function Search() {
     setIsLoading(false);
   }
   return (
-    <div className="bg-gradient-to-b from-indigo-500 to-gray-300 h-full">
+    <div className="bg-gradient-to-b from-indigo-500 to-gray-300 h-screen">
       <Layout>
         {isAnyItem ? (
           <h1 className="text-white">
